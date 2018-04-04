@@ -1,0 +1,154 @@
+body {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+@font-face {
+    font-family: opensans;
+    src: url("Open_sans/OpenSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: opensansbold;
+    src: url("Open_sans/OpenSans-Bold.ttf");
+}
+
+@font-face {
+    font-family: opensanssemibold;
+    src: url("Open_sans/OpenSans-SemiBold.ttf");
+}
+
+.side {
+    width: 49.8vw;
+    height: 100vh;
+    border-width: 0.4vw;
+    border-color: #282828;
+    position: fixed;
+    top: 0 !important;
+    bottom: 0 !important;
+}
+
+#left.side {
+    left: 0 !important;
+    right: 49.8vw;
+    border-right-style: solid;
+}
+
+#right.side {
+    right: 0 !important;
+    left: 49.8vw;
+    border-left-style: solid;
+}
+
+.side category {
+    width: 48vw;
+    margin-left: 0.9vw;
+    margin-right: 0.9vw;
+    margin-top: 1vw;
+    padding-bottom: 0.5vw;
+    min-height: 1vw;
+    float: left;
+    border-bottom: #282828 0.1vw solid;
+    border-right: #282828 0.05vw solid;
+    border-left: #282828 0.05vw solid;
+    border-radius: 0.5vw;
+}
+
+.side category cnamebox {
+    width: 48vw;
+    height: 2vw;
+    font-family: opensansbold;
+    font-size: 1.5vw;
+    text-align: center;
+    display: block;
+    margin-bottom: 0.4vw;
+}
+
+.side category cnamebox cname {
+    display: inline;
+    color: #282828;
+}
+
+.side category result:nth-child(odd) {
+    background-color: #ffe3be;
+}
+
+.side category result {
+    width: 47vw;
+    height: 1.5vw;
+    font-family: opensans;
+    font-size: 1vw;
+    margin-top: 0.2vw;
+    margin-bottom: 0.2vw;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
+    display: block;
+    border-radius: 0.4vw;
+}
+
+.side category result * {
+    height: 1.5vw;
+    display: block;
+    font-family: opensanssemibold;
+    float: left;
+}
+
+.side category result.top {
+    border-bottom: 0.1vw solid #282828;
+}
+
+.side category result.top * {
+    font-family: opensansbold;
+    color: #282828;
+}
+
+.side category result pos {
+    width: 2vw;
+    text-align: right;
+}
+
+.side category result name {
+    width: 11vw;
+    padding-left: 2vw;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: opensansbold;
+}
+
+.side category result club {
+    width: 13vw;
+    padding-left: 1vw;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.side category result stime {
+    width: 9vw;
+    text-align: center;
+}
+
+.side category result stimediff {
+    width: 8vw;
+    text-align: right;
+}
+
+.side category result atime {
+    width: 6vw;
+    text-align: center;
+}
+
+.side category result alltime {
+    width: 6vw;
+    text-align: center;
+}
+
+.side category result atimediff {
+    width: 5vw;
+    text-align: right;
+}
