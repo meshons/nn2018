@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
     <ClInclude Include="csvreader.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="stdafx.h" />

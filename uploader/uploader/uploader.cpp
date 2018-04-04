@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-/*
-Include directly the different
-headers from cppconn/ and mysql_driver.h + mysql_util.h
-(and mysql_connection.h). This will reduce your build time!
-*/
 #include "mysql_connection.h"
 
 #include <cppconn/driver.h>
@@ -18,6 +13,7 @@ headers from cppconn/ and mysql_driver.h + mysql_util.h
 
 #include "csvreader.h"
 #include "result.h"
+#include "config.h"
 #include <fstream>
 
 
@@ -27,9 +23,12 @@ int main(void)
 {
 	setlocale(LC_ALL, "hungarian");
 
+	config c;
+	c.load("config.txt");
+	
 	std::list<Result> l;
-	std::string name = "resz.csv";
-	read(name, l);
+	read(c.file, l);
+	c.ip = "tcp://" + c.ip + ":3306";
 
 	int version;
 	ifstream versionfile1("version.txt");
@@ -46,8 +45,8 @@ int main(void)
 		sql::Statement *stmt;
 
 		driver = get_driver_instance();
-		con = driver->connect("tcp://127.0.0.1:3306", "root", "tajfutas");
-		con->setSchema("tajfutas");
+		con = driver->connect(c.ip, c.user, c.pass);
+		con->setSchema(c.db);
 		
 		stmt = con->createStatement();
 
@@ -87,6 +86,7 @@ int main(void)
 
 
 		//delete
+		
 
 	}
 	catch (sql::SQLException &e) {
@@ -96,7 +96,7 @@ int main(void)
 		cout << " (MySQL error code: " << e.getErrorCode();
 		cout << ", SQLState: " << e.getSQLState() << " )" << endl;
 	}
-
+	
 	cout << endl;
 
 	return EXIT_SUCCESS;

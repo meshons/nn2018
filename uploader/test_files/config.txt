@@ -1,0 +1,3 @@
+ip=vps.dornyayse.hu
+user=
+pass=
