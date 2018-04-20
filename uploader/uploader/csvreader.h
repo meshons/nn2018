@@ -6,6 +6,8 @@
 #include "result.h"
 #include <fstream>
 #include <sstream>
+#include <stdio.h>
+
 
 int st(std::string &s) {
 	std::stringstream S;
@@ -21,10 +23,31 @@ int st(std::string &s) {
 	return (h * 60 * 60 + m * 60 + ss);
 }
 
-void read(std::string name, std::list<Result> & l) {
+bool checkandupdate(std::list<Result>::iterator & it, Result &r) {
+	bool changed = false;
+	if ((*it).finish != r.finish) { (*it).finish = r.finish; changed = true; }
+	if ((*it).start != r.start) { (*it).start = r.start; changed = true; }
+	if ((*it).time != r.time) { (*it).time = r.time; changed = true; }
+	if ((*it).status != r.status) { (*it).status = r.status; changed = true; }
+	for (int i = 0; i < 64; i++) {
+		if ((*it).check[i] != r.check[i]) { (*it).check[i] = r.check[i]; changed = true; }
+		if ((*it).checknr[i] != r.checknr[i]) { (*it).checknr[i] = r.checknr[i]; changed = true; }
+	}
+	return changed;
+}
+
+void read(std::string &name, std::list<Result> & l, unsigned char type) {
 	try {
-		std::ifstream file(name);
+		//átnevez
+		int resultsss = rename(name.c_str(), "eredmeny.csv");
+		if (resultsss != 0) {
+			std::cout << "fos";
+			return;
+		}
+		std::cout << "nemfos";
+		std::ifstream file("eredmeny.csv");
 		file.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+		std::list<Result>::iterator it = l.begin();
 		int f= 2;
 		for (;;) {
 			//std::cout << std::endl << f++;
@@ -68,21 +91,39 @@ void read(std::string name, std::list<Result> & l) {
 			for (int i = 0; i < 34; i++)
 				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
 
+			if (type == 1) {
+				for (int j = 0; file.peek() != '\n'; j++) {
+					getline(file, time, ';');
+					r.checknr[j] = stoi(time);
+					getline(file, time, ';');
+					// -----
+					if (time == "-----")
+						r.check[j] = 0;
+					else
+						r.check[j] = st(time);
+				}
 
-			for (int j = 0; file.peek() != '\n'; j++) {
-				getline(file, time, ';');
-				r.checknr[j] = stoi(time);
-				getline(file, time, ';');
-				// -----
-				if (time == "-----")
-					r.check[j] = 0;
-				else
-					r.check[j] = st(time);
+				file.get();
+				//l.push_back(r);
+			}else
+				file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			/*if (*it == r) {
+				if (checkandupdate(it, r))
+					u.push_back(r);
+				it++;
 			}
-			file.get();
+			else {
+				l.insert(it, r);
+				n.push_back(r);
+			}*/
 			l.push_back(r);
 		}
 		file.close();
+		//töröl
+		if (remove("eredmeny.csv") != 0)
+			std::cout <<"Error deleting file";
+		else
+			std::cout << "File successfully deleted";
 	}
 	catch (std::exception &e) {
 		std::cout << e.what() << std::endl;

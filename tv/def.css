@@ -126,11 +126,12 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: opensans;
 }
 
 .side category result stime {
     width: 9vw;
-    text-align: center;
+    text-align: right;
 }
 
 .side category result stimediff {
@@ -151,4 +152,26 @@ body {
 .side category result atimediff {
     width: 5vw;
     text-align: right;
+}
+
+#top {
+    position: fixed;
+    top: 0.4vw;
+    width: 40vw;
+    left: 30vw;
+    right: 30vw;
+    background-color: #ffe3be;
+    font-family: opensansbold;
+    font-size: 2vw;
+    height: 3vw;
+    text-align: center;
+    border-bottom: 0.2vw;
+    border-right: 0.1vw;
+    border-left: 0.1vw;
+    border-top: 0;
+    border-color: #282828;
+    border-style: solid;
+    border-radius: 1vw;
+    color: #282828;
+    z-index: 1000;
 }
