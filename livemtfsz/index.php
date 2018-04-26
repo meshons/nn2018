@@ -28,7 +28,7 @@ $oldal = $_GET["oldal"];
 if($oldal == 'eredmeny'){
 require("nn2018/result.php");
 }else if($oldal == "rajtlista"){
-    echo "x";
+    require("nn2018/start.php");
 
 }else{
     //eredmény
