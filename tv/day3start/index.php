@@ -38,6 +38,8 @@ function t($time) {
 <body>
     <!--<div id="top">Nógrád Nagydíj 1. nap eredmények</div>-->
     <div id="left" class="side">
+    <banner>https://github.com/meshons/nn2018 ~ gabor.stork@sch.bme.hu</banner>
+
         <?php
             require_once("../backend/mysql.php");
             $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
@@ -66,6 +68,8 @@ function t($time) {
         ?>
     </div>
     <div id="right" class="side">
+    <banner>https://github.com/meshons/nn2018 ~ gabor.stork@sch.bme.hu</banner>
+
     <?php
             require_once("../backend/mysql.php");
             $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
