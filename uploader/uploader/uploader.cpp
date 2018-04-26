@@ -40,7 +40,7 @@ void uploader() {
 		sql::Connection *con;
 		sql::Statement *stmt;
 
-		std::string eredmenytabla = "nap_1", updatetabla = "updated_1", deletetabla = "deleted_1";
+		std::string eredmenytabla = "nap_2", updatetabla = "updated_2", deletetabla = "deleted_2";
 
 		c.load("config.txt");
 		c.ip = "tcp://" + c.ip + ":3306";
@@ -51,7 +51,7 @@ void uploader() {
 
 		stmt = con->createStatement();
 
-		stmt->execute("SET CHARACTER SET latin2");
+		stmt->execute("SET CHARACTER SET latin1");
 
 		/*
 		sql::PreparedStatement  *id_fetcher,*id_create,*insert_data,*update_data,*updated_db,*delete_data,*deleted_db;
@@ -411,7 +411,7 @@ void uploader() {
 int main(void)
 {
 	input = 2;
-	setlocale(LC_ALL, "hungarian");
+	//setlocale(LC_ALL, "hungarian");
 	uploader();
 	
 	int i;

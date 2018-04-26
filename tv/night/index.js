@@ -50,10 +50,12 @@ function t(s) {
 function updates() {
   // newbie
   console.log('up');
-  $.getJSON('backend/day1/getnewbie.php?v=' + newbiever, function (data) {
+  console.log(newbiever);
+  $.getJSON('../backend/night/getnewbie.php?v=' + newbiever, function (data) {
     $.each(data, function (key, val2) {
-      if (parseInt(val2.version, 10) > newbiever)
-        newbiever = parseInt(val2.version, 10);
+      if (parseInt(val2.version, 10) >= newbiever)
+        newbiever = parseInt(val2.version, 10) + 1;
+      console.log(newbiever);
       cat = $('body').find('category[cat=\'' + val2.category + '\']');
       if (val2.status != 0) {
         pozs = 'Hiba';
@@ -158,17 +160,16 @@ function updates() {
       }
     });
   });
-  //$.getJSON('backend/day1/getnewbiever.php', function(data) {
-  //  if (data['newbie'] != null) newbiever = parseInt(data['newbie'],10) +1 ;
-  //  console.log(newbiever);
-  //});
+
   // update
-  $.getJSON('backend/day1/getupdate.php?v=' + updatever, function (data) {
+  $.getJSON('../backend/night/getupdate.php?v=' + updatever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= updatever)
         updatever = parseInt(val.version, 10) + 1;
+      console.log(updatever);
       runner = $('body').find('result[rid=\'' + val.id + '\']');
       runner.find("stime").html(t(val.time));
+      
       if ((parseInt(val.status, 10) == 0 ^ runner.attr('valid') != 'false') ||
         parseInt(val.time, 10) != parseInt(runner.attr('time'), 10)) {
         cat = runner.parent();
@@ -336,7 +337,7 @@ function updates() {
     });
   });
   // delete
-  $.getJSON('backend/day1/getdelete.php?v=' + deletever, function (data) {
+  $.getJSON('../backend/night/getdelete.php?v=' + deletever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= deletever)
         deletever = parseInt(val.version, 10) + 1;
@@ -366,10 +367,10 @@ function updates() {
 $(document).ready(function () {
   // setInterval(explode, 1000);
 
-  //setTimeout(lefter, 2000);
-  //setTimeout(righter, 2000);
+  setTimeout(lefter, 2000);
+  setTimeout(righter, 2000);
 
-  $.getJSON('backend/day1/getvers.php', function (data) {
+  $.getJSON('../backend/night/getvers.php', function (data) {
     if (data['newbie'] != null) newbiever = parseInt(data['newbie'], 10) + 1;
     console.log(newbiever);
     if (data['update'] != null) updatever = parseInt(data['update'], 10) + 1;
@@ -378,13 +379,13 @@ $(document).ready(function () {
     console.log(deletever);
   });
 
-  $.getJSON('backend/getcate.php?s=0', function (data) {
+  $.getJSON('../backend/night/getcate.php?s=0', function (data) {
     $.each(data, function (key, val) {
       $('#left').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
         '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
       $.getJSON(
-        'backend/day1/runnerfromcat.php?cat=' + val.cat,
+        '../backend/night/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -504,13 +505,13 @@ $(document).ready(function () {
     // load cat
   });
 
-  $.getJSON('backend/getcate.php?s=1', function (data) {
+  $.getJSON('../backend/night/getcate.php?s=1', function (data) {
     $.each(data, function (key, val) {
       $('#right').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
         '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
       $.getJSON(
-        'backend/day1/runnerfromcat.php?cat=' + val.cat,
+        '../backend/night/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);

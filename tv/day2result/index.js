@@ -50,7 +50,7 @@ function t(s) {
 function updates() {
   // newbie
   console.log('up');
-  $.getJSON('backend/day1/getnewbie.php?v=' + newbiever, function (data) {
+  $.getJSON('../backend/day2/getnewbie.php?v=' + newbiever, function (data) {
     $.each(data, function (key, val2) {
       if (parseInt(val2.version, 10) > newbiever)
         newbiever = parseInt(val2.version, 10);
@@ -60,8 +60,8 @@ function updates() {
         cat.append(
           '<result valid=\'false\' rid=' + val2.id + ' time=' + val2.time +
           ' ><pos>' + pozs + '</pos><name>' + val2.lastname + ' ' +
-          val2.firstname + '</name><club>' + val2.club + '</club><stime>' +
-          t(val2.time) + '</stime><stimediff>-</stimediff></result>');
+          val2.firstname + '</name><club>' + val2.club + '</club><atime>' +
+          t(val2.time) + '</atime><atimediff>-</atimediff><alltime>-</alltime></result>');
       } else {
         // console.log(cat.children().length);
         var i = 0;
@@ -71,8 +71,8 @@ function updates() {
             '<result valid=\'true\' rid=' + val2.id +
             ' time=' + val2.time + ' ><pos>1</pos><name>' +
             val2.lastname + ' ' + val2.firstname + '</name><club>' +
-            val2.club + '</club><stime>' + t(val2.time) +
-            '</stime><stimediff></stimediff></result>');
+            val2.club + '</club><atime>' + t(val2.time) +
+            '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
         else {
           // console.log(
           //    cat.find('result[valid=\'true\']:eq(' + i + ')').length);
@@ -96,9 +96,9 @@ function updates() {
                   .find('pos')
                   .html() +
                   '</pos><name>' + val2.lastname + ' ' + val2.firstname +
-                  '</name><club>' + val2.club + '</club><stime>' +
-                  t(val2.time) + '</stime><stimediff>' + timediff +
-                  '</stimediff></result>');
+                  '</name><club>' + val2.club + '</club><atime>' +
+                  t(val2.time) + '</atime><atimediff>' + timediff +
+                  '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
               // cat.find('result[valid=\'true\']:eq(' + i + ')')
               while (cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
                 .length != 0) {
@@ -113,7 +113,7 @@ function updates() {
                       10) +
                     1)
                 cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
-                  .find('stimediff')
+                  .find('atimediff')
                   .html(
                     '+' +
                     t(parseInt(
@@ -147,9 +147,9 @@ function updates() {
                       10) +
                     1) +
                   '</pos><name>' + val2.lastname + ' ' + val2.firstname +
-                  '</name><club>' + val2.club + '</club><stime>' +
-                  t(val2.time) + '</stime><stimediff>' + timediff +
-                  '</stimediff></result>');
+                  '</name><club>' + val2.club + '</club><atime>' +
+                  t(val2.time) + '</atime><atimediff>' + timediff +
+                  '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
               found = true;
             }
             i++;
@@ -163,12 +163,14 @@ function updates() {
   //  console.log(newbiever);
   //});
   // update
-  $.getJSON('backend/day1/getupdate.php?v=' + updatever, function (data) {
+  $.getJSON('../backend/day2/getupdate.php?v=' + updatever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= updatever)
         updatever = parseInt(val.version, 10) + 1;
       runner = $('body').find('result[rid=\'' + val.id + '\']');
-      runner.find("stime").html(t(val.time));
+      runner.find("atime").html(t(val.time));
+      runner.find("alltime").html(t(val.alltime));
+
       if ((parseInt(val.status, 10) == 0 ^ runner.attr('valid') != 'false') ||
         parseInt(val.time, 10) != parseInt(runner.attr('time'), 10)) {
         cat = runner.parent();
@@ -182,7 +184,7 @@ function updates() {
           if (cat.find('result[valid=\'true\']').length == 0) {
             runner.detach().insertAfter(cat.find('result.top'));
             runner.find("pos").html("1");
-            runner.find("stimediff").html("-");
+            runner.find("atimediff").html("-");
             //újraszámolás
           } else {
             var found = false;
@@ -197,15 +199,15 @@ function updates() {
                   10) > val.time) {
                 runner.detach().insertBefore(cat.find('result[valid=\'true\']:eq(' + i + ')'));
                 runner.find("pos").html(cat.find('result[valid=\'true\']:eq(' + i + ')').find("pos").html());
-                if (i == 0) runner.find("stimediff").html("");
-                else runner.find("stimediff").html("+" + t(parseInt(runner.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']").attr("time"), 10)));
+                if (i == 0) runner.find("atimediff").html("");
+                else runner.find("atimediff").html("+" + t(parseInt(runner.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']").attr("time"), 10)));
                 // cat.find('result[valid=\'true\']:eq(' + i + ')')
                 while (
                   cat.find('result[valid=\'true\']:eq(' + i + ')')
                   .length != 0) {
                   cat.find('result[valid=\'true\']:eq(' + i + ')').find('pos').html(parseInt(cat.find('result[valid=\'true\']:eq(' + i + ')').find('pos').html(), 10) + 1);
                   cat.find('result[valid=\'true\']:eq(' + i + ')')
-                    .find('stimediff')
+                    .find('atimediff')
                     .html('+' + t(parseInt(cat.find('result[valid=\'true\']:eq(' + i + ')').attr('time'), 10) - parseInt(cat.find('result:not(.top):eq(0)').attr('time'), 10)));
                   i++;
                 }
@@ -236,7 +238,7 @@ function updates() {
           console.log("jobolhibas");
           console.log(runner[0] == cat.find("result:not(.top):eq(0)")[0]);
           if (runner[0] == cat.find("result:not(.top):eq(0)")[0]) {
-            //stimediffujraszámolás
+            //atimediffujraszámolás
             //helyezésujraszámolás
             var first = true;
             var r = runner.next("result[valid=\'true\']");
@@ -244,9 +246,9 @@ function updates() {
               r.find("pos").html(parseInt(r.find("pos").html(), 10) - 1);
               if (first) {
                 first = false;
-                r.find("stimediff").html("");
+                r.find("atimediff").html("");
               } else {
-                r.find("stimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(runner.next("result[valid=\'true\']").attr("time"), 10)));
+                r.find("atimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(runner.next("result[valid=\'true\']").attr("time"), 10)));
               }
               r = r.next("result[valid=\'true\']");
 
@@ -260,7 +262,7 @@ function updates() {
             }
           }
           runner.detach().appendTo(cat).find("pos").html("Hiba");
-          runner.find("stimediff").html("-");
+          runner.find("atimediff").html("-");
           runner.attr("valid", "false");
         } else if (
           parseInt(val.time, 10) != parseInt(runner.attr['time'], 10)) {
@@ -288,18 +290,18 @@ function updates() {
                 i++;
               }
               var r = cat.find("result[valid=\'true\']:eq(0)");
-              r.find("stimediff").html("-");
+              r.find("atimediff").html("-");
               r.find("pos").html("1");
               var i = 2;
               r = r.next("result[valid=\'true\']");
               while (r.length != 0) {
                 r.find("pos").html(i);
-                r.find("stimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
+                r.find("atimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
                 r = r.next("result[valid=\'true\']");
                 i++;
               }
 
-              //stimediff újra
+              //atimediff újra
 
             } else {
               var found = false;
@@ -317,13 +319,13 @@ function updates() {
                 i++;
               }
               var r = cat.find("result[valid=\'true\']:eq(0)");
-              r.find("stimediff").html("-");
+              r.find("atimediff").html("-");
               r.find("pos").html("1");
               var i = 2;
               r = r.next("result[valid=\'true\']");
               while (r.length != 0) {
                 r.find("pos").html(i);
-                r.find("stimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
+                r.find("atimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
                 r = r.next("result[valid=\'true\']");
                 i++;
               }
@@ -336,7 +338,7 @@ function updates() {
     });
   });
   // delete
-  $.getJSON('backend/day1/getdelete.php?v=' + deletever, function (data) {
+  $.getJSON('../backend/day2/getdelete.php?v=' + deletever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= deletever)
         deletever = parseInt(val.version, 10) + 1;
@@ -344,13 +346,13 @@ function updates() {
       cat = runner.parent();
       runner.remove();
       var r = cat.find("result[valid=\'true\']:eq(0)");
-      r.find("stimediff").html("-");
+      r.find("atimediff").html("-");
       r.find("pos").html("1");
       var i = 2;
       r = r.next("result[valid=\'true\']");
       while (r.length != 0) {
         r.find("pos").html(i);
-        r.find("stimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
+        r.find("atimediff").html("+" + t(parseInt(r.attr("time"), 10) - parseInt(cat.find("result[valid=\'true\']:eq(0)").attr("time"), 10)));
         r = r.next("result[valid=\'true\']");
         i++;
       }
@@ -366,10 +368,10 @@ function updates() {
 $(document).ready(function () {
   // setInterval(explode, 1000);
 
-  //setTimeout(lefter, 2000);
-  //setTimeout(righter, 2000);
+  setTimeout(lefter, 2000);
+  setTimeout(righter, 2000);
 
-  $.getJSON('backend/day1/getvers.php', function (data) {
+  $.getJSON('../backend/day2/getvers.php', function (data) {
     if (data['newbie'] != null) newbiever = parseInt(data['newbie'], 10) + 1;
     console.log(newbiever);
     if (data['update'] != null) updatever = parseInt(data['update'], 10) + 1;
@@ -378,13 +380,13 @@ $(document).ready(function () {
     console.log(deletever);
   });
 
-  $.getJSON('backend/getcate.php?s=0', function (data) {
+  $.getJSON('../backend/getcate.php?s=0', function (data) {
     $.each(data, function (key, val) {
       $('#left').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
-        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
+        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><atimediff>Időkül.</atimediff><alltime>Összidő</alltime></result></category>');
       $.getJSON(
-        'backend/day1/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day2/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -395,8 +397,8 @@ $(document).ready(function () {
                 '<result valid=\'false\' rid=' + val2.id +
                 ' time=' + val2.time + ' ><pos>' + pozs + '</pos><name>' +
                 val2.lastname + ' ' + val2.firstname + '</name><club>' +
-                val2.club + '</club><stime>' + t(val2.time) +
-                '</stime><stimediff>-</stimediff></result>');
+                val2.club + '</club><atime>' + t(val2.time) +
+                '</atime><atimediff>-</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
             } else {
               // console.log(cat.children().length);
               var i = 0;
@@ -406,8 +408,8 @@ $(document).ready(function () {
                   '<result valid=\'true\' rid=' + val2.id + ' time=' +
                   val2.time + ' ><pos>1</pos><name>' + val2.lastname +
                   ' ' + val2.firstname + '</name><club>' + val2.club +
-                  '</club><stime>' + t(val2.time) +
-                  '</stime><stimediff></stimediff></result>');
+                  '</club><atime>' + t(val2.time) +
+                  '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
               else {
                 // console.log(
                 //    cat.find('result[valid=\'true\']:eq(' + i +
@@ -434,9 +436,9 @@ $(document).ready(function () {
                         .html() +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><stime>' + t(val2.time) +
-                        '</stime><stimediff>' + timediff +
-                        '</stimediff></result>');
+                        '</club><atime>' + t(val2.time) +
+                        '</atime><atimediff>' + timediff +
+                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
                     // cat.find('result[valid=\'true\']:eq(' + i + ')')
                     while (
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
@@ -453,7 +455,7 @@ $(document).ready(function () {
                             10) +
                           1)
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
-                        .find('stimediff')
+                        .find('atimediff')
                         .html(
                           '+' +
                           t(parseInt(
@@ -489,9 +491,9 @@ $(document).ready(function () {
                           1) +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><stime>' + t(val2.time) +
-                        '</stime><stimediff>' + timediff +
-                        '</stimediff></result>');
+                        '</club><atime>' + t(val2.time) +
+                        '</atime><atimediff>' + timediff +
+                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
                     found = true;
                   }
                   i++;
@@ -504,13 +506,13 @@ $(document).ready(function () {
     // load cat
   });
 
-  $.getJSON('backend/getcate.php?s=1', function (data) {
+  $.getJSON('../backend/getcate.php?s=1', function (data) {
     $.each(data, function (key, val) {
       $('#right').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
-        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
+        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><atimediff>Időkül.</atimediff><alltime>Összidő</alltime></result></category>');
       $.getJSON(
-        'backend/day1/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day2/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -521,8 +523,8 @@ $(document).ready(function () {
                 '<result valid=\'false\' rid=' + val2.id +
                 ' time=' + val2.time + ' ><pos>' + pozs + '</pos><name>' +
                 val2.lastname + ' ' + val2.firstname + '</name><club>' +
-                val2.club + '</club><stime>' + t(val2.time) +
-                '</stime><stimediff>-</stimediff></result>');
+                val2.club + '</club><atime>' + t(val2.time) +
+                '</atime><atimediff>-</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
             } else {
               // console.log(cat.children().length);
               var i = 0;
@@ -532,8 +534,8 @@ $(document).ready(function () {
                   '<result valid=\'true\' rid=' + val2.id + ' time=' +
                   val2.time + ' ><pos>1</pos><name>' + val2.lastname +
                   ' ' + val2.firstname + '</name><club>' + val2.club +
-                  '</club><stime>' + t(val2.time) +
-                  '</stime><stimediff></stimediff></result>');
+                  '</club><atime>' + t(val2.time) +
+                  '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
               else {
                 // console.log(
                 //   cat.find('result[valid=\'true\']:eq(' + i + ')').length);
@@ -559,9 +561,9 @@ $(document).ready(function () {
                         .html() +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><stime>' + t(val2.time) +
-                        '</stime><stimediff>' + timediff +
-                        '</stimediff></result>');
+                        '</club><atime>' + t(val2.time) +
+                        '</atime><atimediff>' + timediff +
+                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
                     // cat.find('result[valid=\'true\']:eq(' + i + ')')
                     while (
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
@@ -578,7 +580,7 @@ $(document).ready(function () {
                             10) +
                           1)
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
-                        .find('stimediff')
+                        .find('atimediff')
                         .html(
                           '+' +
                           t(parseInt(
@@ -614,9 +616,9 @@ $(document).ready(function () {
                           1) +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><stime>' + t(val2.time) +
-                        '</stime><stimediff>' + timediff +
-                        '</stimediff></result>');
+                        '</club><atime>' + t(val2.time) +
+                        '</atime><atimediff>' + timediff +
+                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
                     found = true;
                   }
                   i++;

@@ -41,6 +41,10 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 		//átnevez
 		int resultsss = rename(name.c_str(), "eredmeny.csv");
 		if (resultsss != 0) {
+			if (remove("eredmeny.csv") != 0)
+				std::cout << "Error deleting file";
+			else
+				std::cout << "File successfully deleted";
 			std::cout << "fos";
 			return;
 		}
@@ -64,6 +68,8 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 			for (int i = 0; i < 4; i++)
 				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
 
+
+
 			std::string time;
 			getline(file, time, ';'); //start
 			r.start = st(time);
@@ -74,6 +80,8 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 
 			getline(file, time, ';'); //classifier
 			r.status = (char)stoi(time);
+
+			//std::cout << posnc;
 
 			for (int i = 0; i < 4; i++)
 				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
@@ -88,16 +96,20 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 
 			getline(file, r.category, ';');
 
-			for (int i = 0; i < 34; i++)
-				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
-
 			if (type == 1) {
+				for (int i = 0; i < 31; i++)
+					file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
+				std::string posnc;
+				getline(file, posnc, ';'); //posnc
+				if (posnc == "nc")r.status = 3;
+				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
+				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
 				for (int j = 0; file.peek() != '\n'; j++) {
 					getline(file, time, ';');
 					r.checknr[j] = stoi(time);
 					getline(file, time, ';');
 					// -----
-					if (time == "-----")
+					if (time == "-----" || time == "0.00")
 						r.check[j] = 0;
 					else
 						r.check[j] = st(time);
@@ -105,7 +117,8 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 
 				file.get();
 				//l.push_back(r);
-			}else
+			}
+			else
 				file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			/*if (*it == r) {
 				if (checkandupdate(it, r))
@@ -116,7 +129,8 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 				l.insert(it, r);
 				n.push_back(r);
 			}*/
-			l.push_back(r);
+			if(r.lastname!="Üres")
+				l.push_back(r);
 		}
 		file.close();
 		//töröl

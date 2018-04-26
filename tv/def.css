@@ -22,12 +22,15 @@ body {
 
 .side {
     width: 49.8vw;
-    height: 100vh;
+    /*min-height: 200vh;*/
+    max-height:100vh;
     border-width: 0.4vw;
     border-color: #282828;
     position: fixed;
-    top: 0 !important;
-    bottom: 0 !important;
+    top: 0;
+    bottom: 0;
+    overflow:hidden;
+    padding-bottom:100vh;
 }
 
 #left.side {
@@ -107,6 +110,9 @@ body {
 .side category result pos {
     width: 2vw;
     text-align: right;
+}
+.side category result pos::after {
+    content: ".";
 }
 
 .side category result name {
