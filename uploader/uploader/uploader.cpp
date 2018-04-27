@@ -40,7 +40,7 @@ void uploader() {
 		sql::Connection *con;
 		sql::Statement *stmt;
 
-		std::string eredmenytabla = "nap_2", updatetabla = "updated_2", deletetabla = "deleted_2";
+		std::string eredmenytabla = "night_s", updatetabla = "updated_night", deletetabla = "deleted_night", futoktabla="futok_n";
 
 		c.load("config.txt");
 		c.ip = "tcp://" + c.ip + ":3306";
@@ -111,7 +111,7 @@ void uploader() {
 
 					for (auto it = res.begin(); it != res.end(); it++) {
 						std::stringstream fetch2;
-						fetch2 << "SELECT * FROM futok WHERE id=" << it->id;
+						fetch2 << "SELECT * FROM "<< futoktabla<<" WHERE id=" << it->id;
 						stmt->execute(fetch2.str());
 						ress = stmt->getResultSet();
 						while (ress->next()) {
@@ -213,7 +213,7 @@ void uploader() {
 								//SELECT id FROM futok WHERE lastname=? AND firstname=? AND club=? AND category=?
 								std::stringstream id_fetcher;
 								//id_fetcher->setString(1, it->lastname);
-								id_fetcher << "SELECT id FROM futok WHERE lastname=\"" << it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
+								id_fetcher << "SELECT id FROM "<<futoktabla<<" WHERE lastname=\"" << it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
 								/*id_fetcher->setString(2, it->firstname);
 								id_fetcher->setString(3, it->club);
 								id_fetcher->setString(4, it->category);*/
@@ -227,7 +227,7 @@ void uploader() {
 									//create;
 									//INSERT INTO futok (lastname,firstname,club,category) VALUES(?,?,?,?)");
 									std::stringstream id_create;
-									id_create <<"INSERT INTO futok (lastname,firstname,club,category) VALUES(\""<< it->lastname << "\", \"" << it->firstname << "\", \"" << it->club << "\", \"" << it->category << "\")";
+									id_create <<"INSERT INTO " << futoktabla << " (lastname,firstname,club,category) VALUES(\""<< it->lastname << "\", \"" << it->firstname << "\", \"" << it->club << "\", \"" << it->category << "\")";
 									/*
 									id_create->setString(1, it->lastname);
 									id_create->setString(2, it->firstname);
@@ -284,7 +284,7 @@ void uploader() {
 								//SELECT id FROM futok WHERE lastname=? AND firstname=? AND club=? AND category=?
 								std::stringstream id_fetcher;
 								//id_fetcher->setString(1, it->lastname);
-								id_fetcher <<"SELECT id FROM futok WHERE lastname=\""<< it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
+								id_fetcher <<"SELECT id FROM " << futoktabla << " WHERE lastname=\""<< it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
 								/*id_fetcher->setString(2, it->firstname);
 								id_fetcher->setString(3, it->club);
 								id_fetcher->setString(4, it->category);*/
@@ -341,7 +341,7 @@ void uploader() {
 								//get id from db or create
 								std::stringstream id_fetcher;
 								//id_fetcher->setString(1, it->lastname);
-								id_fetcher <<"SELECT id FROM futok WHERE lastname=\""<< it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
+								id_fetcher <<"SELECT id FROM " << futoktabla << " WHERE lastname=\""<< it->lastname << "\" AND firstname=\"" << it->firstname << "\" AND club=\"" << it->club << "\" AND category=\"" << it->category << "\"";
 								/*id_fetcher->setString(2, it->firstname);
 								id_fetcher->setString(3, it->club);
 								id_fetcher->setString(4, it->category);*/

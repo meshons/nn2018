@@ -1,9 +1,10 @@
+<div class="container-fluid">
+<h1 style="text-align:center;" class="display-4">Nógrád Nagydíj 2018</h1>
+<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php?a=0" role="button">Vissza</a>
 <?php
 if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
-<div class="container-fluid">
-<h1 style="text-align:center;" class="display-4">Nógrád Nagydíj 2018</h1>
-<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php" role="button">Vissza</a>
+
 
 <h3 style="display:inline;padding-top:1rem;"><?php echo $_GET["nap"].". nap - ".$_GET["kat"];  ?></h3>
 

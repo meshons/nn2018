@@ -162,7 +162,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
                 <h3>Megjelenítés:</h3>
             <div class="row">
                 <a style="display:block;" class="col-5 my-1 mx-auto btn btn-primary" href="#" role="button">Kategóriánkénti</a>
-                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="#" role="button">Összes</a>
+                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="index.php?oldal=rajtlista&nap=0" role="button">Összes</a>
             </div>
             <div class="row" style="display:none">
                     <?php
