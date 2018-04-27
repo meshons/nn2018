@@ -6,7 +6,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
 
 
-<h3 style="display:inline;padding-top:1rem;"><?php echo $_GET["nap"].". nap - ".$_GET["kat"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$_GET["kat"];  ?></h3>
 
         <table class="table table-striped">
         <?php
@@ -131,7 +131,47 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
  </tbody>
             <?php
-            }
+            }elseif($_GET["nap"]==0){
+              ?>
+              <thead>
+  <tr>
+    <th scope="col">Hely.</th>
+    <th scope="col">Név</th>
+    <th scope="col">Egyesület</th>
+    <th scope="col">Idő</th>
+    <th scope="col">Időkül.</th>
+    <th scope="col">Összidő.</th>
+    <th scope="col">Részidő.</th>
+  </tr>
+</thead>
+<tbody>
+
+              <?php
+              //inner join
+              $i=1;
+                $first = 0; 
+                //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
+                $sth = mysqli_query($con,"SELECT futok_n.id,lastname,firstname,club,time,status FROM futok_n INNER JOIN night ON futok_n.id = night.id WHERE category='".$_GET["kat"]."' ORDER BY status, time");
+        while($r = mysqli_fetch_assoc($sth)) {
+            if($i==1)$first = $r["time"];
+    $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
+    $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
+    $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
+    echo "<tr>
+    <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
+    <td>".$r["lastname"]." ".$r["firstname"]."</td>
+    <td>".$r["club"]."</td>
+    <td>".t($r["time"])."</td>
+    <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
+    <td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+  </tr>";
+            $i = $i+1;
+    
+}
+?>
+</tbody>
+          <?php
+          }
 
         ?>
 

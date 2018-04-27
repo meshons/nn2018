@@ -5,7 +5,7 @@
 $table = $_GET["nap"];
 if(isset($_GET["kat"])){
     ?>
-    <h3 style="display:inline;padding-top:1rem;"><?php echo $_GET["nap"].". nap - ".$_GET["kat"];  ?></h3>
+    <h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$_GET["kat"];  ?></h3>
 
     <table class="table table-striped">
     <?php
@@ -55,7 +55,7 @@ echo "<tr>
 while($r2 = mysqli_fetch_assoc($sth)) {
 $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
 ?>
-<h3 style="display:inline;padding-top:1rem;"><?php echo $_GET["nap"].". nap - ".$r2["category"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$r2["category"];  ?></h3>
 
 <table class="table table-striped">
 <thead>
