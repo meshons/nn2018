@@ -1,6 +1,6 @@
 <div class="container-fluid">
 <h1 style="text-align:center;" class="display-4" onclick="getSplit(9800)">Nógrád Nagydíj 2018</h1>
-<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php?a=0" role="button">Vissza</a>
+<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php?a=0<?php echo (isset($_GET["nap"])?"&b=".$_GET["nap"]:""); ?>" role="button">Vissza</a>
 <?php
 if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
@@ -35,7 +35,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
     $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
     $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-    echo "<tr>
+    echo "<tr id='".$r["id"]."'>
     <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
     <td>".$r["lastname"]." ".$r["firstname"]."</td>
     <td>".$r["club"]."</td>
@@ -75,7 +75,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
     $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
     $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-    echo "<tr>
+    echo "<tr  id='".$r["id"]."'>
     <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
     <td>".$r["lastname"]." ".$r["firstname"]."</td>
     <td>".$r["club"]."</td>
@@ -116,7 +116,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
     $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
     $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-    echo "<tr>
+    echo "<tr id='".$r["id"]."'>
     <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
     <td>".$r["lastname"]." ".$r["firstname"]."</td>
     <td>".$r["club"]."</td>
@@ -157,7 +157,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
     $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
     $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-    echo "<tr>
+    echo "<tr  id='".$r["id"]."'>
     <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
     <td>".$r["lastname"]." ".$r["firstname"]."</td>
     <td>".$r["club"]."</td>
@@ -214,7 +214,7 @@ if($i==1)$first = $r["time"];
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
 $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
 $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-echo "<tr>
+echo "<tr id='".$r["id"]."'>
 <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
 <td>".$r["lastname"]." ".$r["firstname"]."</td>
 <td>".$r["club"]."</td>
@@ -260,7 +260,7 @@ if($i==1)$first = $r["time"];
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
 $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
 $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-echo "<tr>
+echo "<tr id='".$r["id"]."'>
 <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
 <td>".$r["lastname"]." ".$r["firstname"]."</td>
 <td>".$r["club"]."</td>
@@ -306,7 +306,7 @@ if($i==1)$first = $r["time"];
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
 $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
 $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
-echo "<tr>
+echo "<tr id='".$r["id"]."'>
 <th scope='row'>".($r["status"]==0?$i:"Hiba").".</th>
 <td>".$r["lastname"]." ".$r["firstname"]."</td>
 <td>".$r["club"]."</td>

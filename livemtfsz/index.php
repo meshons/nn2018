@@ -37,7 +37,7 @@ require("nn2018/result.php");
     if(isset($_GET["a"]))
     $a = $_GET["a"];
     if(isset($_GET["b"]))
-    $a = $_GET["b"];
+    $b = $_GET["b"];
 ?>
     <div class="container">
         <div class="container">
@@ -125,7 +125,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
 }
 ?>
 <h6 style="display:block; text-align:center;opacity:0.5; " class="mx-auto">
-<a href="https://github.com/meshons/nn2018">https://github.com/meshons/nn2018</a> ~ <a href="mailto:gabor.stork@sch.bme.hu?subject=NN2018">gabor.stork@sch.bme.hu</a>
+<a href="https://github.com/meshons/nn2018">github.com/meshons/nn2018</a> ~ <a href="mailto:gabor.stork@sch.bme.hu?subject=NN2018">gabor.stork@sch.bme.hu</a>
 </h6>
 </body>
 
