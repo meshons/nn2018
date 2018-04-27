@@ -51,7 +51,7 @@ echo "<tr>
     if($_GET["nap"]==0){$table="night_s";
     $futok = "futok_n";}
     //all
-    $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok_n WHERE 1 ORDER BY category");
+    $sth = mysqli_query($con,"SELECT DISTINCT category FROM $futok WHERE 1 ORDER BY category");
 while($r2 = mysqli_fetch_assoc($sth)) {
 $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
 ?>
