@@ -1,5 +1,5 @@
 <?php
-require_once("mysql.php");
+require_once("../mysql.php");
 
 if(isset($_GET['s'])){$id = $_GET['s'];
 $table = $id?"night_cat_2":"night_cat_1";

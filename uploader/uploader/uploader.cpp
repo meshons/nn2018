@@ -40,7 +40,7 @@ void uploader() {
 		sql::Connection *con;
 		sql::Statement *stmt;
 
-		std::string eredmenytabla = "night_s", updatetabla = "updated_night", deletetabla = "deleted_night", futoktabla="futok_n";
+		std::string eredmenytabla = "nap_1", updatetabla = "updated_1", deletetabla = "deleted_1", futoktabla="futok";
 
 		c.load("config.txt");
 		c.ip = "tcp://" + c.ip + ":3306";

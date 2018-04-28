@@ -41,7 +41,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     <td>".$r["club"]."</td>
     <td>".t($r["time"])."</td>
     <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
-    <td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+    <td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_1\")'>Részeredmény</div></td>
   </tr>";
             $i = $i+1;
     
@@ -82,7 +82,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     <td>".t($r["time"])."</td>
     <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
     <td>".($r["allstat"]==0?t($r["alltime"]):"nincs")."</td>
-    <td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+    <td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_2\")'>Részeredmény</div></td>
   </tr>";
             $i = $i+1;
     
@@ -123,7 +123,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     <td>".t($r["time"])."</td>
     <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
     <td>".($r["allstat"]==0?t($r["alltime"]):"nincs")."</td>
-    <td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+    <td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_3\")'>Részeredmény</div></td>
   </tr>";
             $i = $i+1;
     
@@ -140,7 +140,6 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     <th scope="col">Egyesület</th>
     <th scope="col">Idő</th>
     <th scope="col">Időkül.</th>
-    <th scope="col">Összidő.</th>
     <th scope="col">Részidő.</th>
   </tr>
 </thead>
@@ -163,7 +162,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
     <td>".$r["club"]."</td>
     <td>".t($r["time"])."</td>
     <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
-    <td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+    <td><div class='btn btn-primary' style='display:inline;' onClick='openClose(".$r["id"].",\"night\")'>Részeredmény</div></td>
   </tr>";
             $i = $i+1;
     
@@ -208,7 +207,7 @@ $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
     $i=1;
     $first = 0;
     //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
-    $sth = mysqli_query($con,"SELECT futok.id,lastname,firstname,club,time,status FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$r2["category"]."' ORDER BY status, time");
+    $sth = mysqli_query($con,"SELECT $futok.id,lastname,firstname,club,time,status FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$r2["category"]."' ORDER BY status, time");
 while($r = mysqli_fetch_assoc($sth)) {
 if($i==1)$first = $r["time"];
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
@@ -220,7 +219,7 @@ echo "<tr id='".$r["id"]."'>
 <td>".$r["club"]."</td>
 <td>".t($r["time"])."</td>
 <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
-<td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+<td><div class='btn btn-primary'  onClick='openClose(".$r["id"].",\"$table\")' style='display:inline;'>Részeredmény</div></td>
 </tr>";
 $i = $i+1;
 
@@ -267,7 +266,7 @@ echo "<tr id='".$r["id"]."'>
 <td>".t($r["time"])."</td>
 <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
 <td>".($r["allstat"]==0?t($r["alltime"]):"nincs")."</td>
-<td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+<td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_2\")'>Részeredmény</div></td>
 </tr>";
 $i = $i+1;
 }
@@ -313,7 +312,7 @@ echo "<tr id='".$r["id"]."'>
 <td>".t($r["time"])."</td>
 <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
 <td>".($r["allstat"]==0?t($r["alltime"]):"nincs")."</td>
-<td><div class='btn btn-primary' style='display:inline;'>Részeredmény</div></td>
+<td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_3\")'>Részeredmény</div></td>
 </tr>";
 $i = $i+1;
 

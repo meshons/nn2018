@@ -129,7 +129,7 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 				l.insert(it, r);
 				n.push_back(r);
 			}*/
-			if(r.lastname!="Üres")
+			if(r.lastname!="Üres" && r.lastname!="üres")
 				l.push_back(r);
 		}
 		file.close();

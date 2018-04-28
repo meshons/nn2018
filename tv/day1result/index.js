@@ -51,7 +51,7 @@ function updates() {
   // newbie
   console.log('up');
   console.log(newbiever);
-  $.getJSON('../backend/night/getnewbie.php?v=' + newbiever, function (data) {
+  $.getJSON('../backend/day1/getnewbie.php?v=' + newbiever, function (data) {
     $.each(data, function (key, val2) {
       if (parseInt(val2.version, 10) >= newbiever)
         newbiever = parseInt(val2.version, 10) + 1;
@@ -165,7 +165,7 @@ function updates() {
   //  console.log(newbiever);
   //});
   // update
-  $.getJSON('../backend/night/getupdate.php?v=' + updatever, function (data) {
+  $.getJSON('../backend/day1/getupdate.php?v=' + updatever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= updatever)
         updatever = parseInt(val.version, 10) + 1;
@@ -338,7 +338,7 @@ function updates() {
     });
   });
   // delete
-  $.getJSON('../backend/night/getdelete.php?v=' + deletever, function (data) {
+  $.getJSON('../backend/day1/getdelete.php?v=' + deletever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= deletever)
         deletever = parseInt(val.version, 10) + 1;
@@ -371,7 +371,7 @@ $(document).ready(function () {
   setTimeout(lefter, 2000);
   setTimeout(righter, 2000);
 
-  $.getJSON('../backend/night/getvers.php', function (data) {
+  $.getJSON('../backend/day1/getvers.php', function (data) {
     if (data['newbie'] != null) newbiever = parseInt(data['newbie'], 10) + 1;
     console.log(newbiever);
     if (data['update'] != null) updatever = parseInt(data['update'], 10) + 1;
@@ -386,7 +386,7 @@ $(document).ready(function () {
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
         '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
       $.getJSON(
-        '../backend/night/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day1/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -512,7 +512,7 @@ $(document).ready(function () {
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
         '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><stime>Idő</stime><stimediff>Időkül.</stimediff></result></category>');
       $.getJSON(
-        '../backend/night/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day1/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);

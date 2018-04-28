@@ -32,8 +32,8 @@ require("nn2018/result.php");
 
 }else{
 
-    $a =1;
-    $b =0;
+    $a =0;
+    $b =1;
     if(isset($_GET["a"]))
     $a = $_GET["a"];
     if(isset($_GET["b"]))
@@ -48,45 +48,66 @@ require("nn2018/result.php");
             <a style="display:block;;" class="col-12 col-md-3  my-1 mx-auto btn  <?php echo ($a==1?"btn-primary":"btn-secondary"); ?>" href="?a=1" role="button">Rajtlista</a>
             <a style="display:block;" class="col-12 col-md-3 my-1 mx-auto btn btn-secondary" href="nn2018/ertesito.pdf" role="button" download>Értesítő</a>
         </div>
-<h4 <?php if($a==1){?>style="display:none;"<?php } ?>>Nincs eredmény
-</h4>
-        <!--<div class="row" style="display:none;">
+<?php
+if($a==0){
+?>
+        <div class="row">
             <div class="col-12 col-md-4">
                 <h3>Eredmények:</h3>
                 <div class="row">
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">Éjszakai</a>
-                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-primary" href="#" role="button">1. nap</a>
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">2. nap</a>
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">3. nap</a>
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">Összesített</a>
-
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button" download>Váltó</a>
-                    <?php } ?>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=0&b=0" role="button">Éjszakai</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=0&b=1" role="button">1. nap</a>
                 </div>
             </div>
             <div class="col-12 col-md-8">
                 <h3>Megjelenítés:</h3>
             <div class="row">
                 <a style="display:block;" class="col-5 my-1 mx-auto btn btn-primary" href="#" role="button">Kategóriánkénti</a>
-                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="#" role="button">Összes</a>
+                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="index.php?oldal=eredmeny&nap=<?php echo $b; ?>" role="button">Összes</a>
             </div>
-            <h3>Eddig beérkezett futóval rendelkező kategóriák:</h3>
+            <?php if($b==0){ ?>
             <div class="row">
-                <div class="col-4 col-md-3 my-1"><a style="display:block;" class="mx-auto btn btn-primary" href="#" role="button">M16A</a></div>
+<?php
+
+$sth = mysqli_query($con,"SELECT DISTINCT category FROM futok_n WHERE 1 ORDER BY category");
+while($r = mysqli_fetch_assoc($sth)) {
+$r["category"] = mb_convert_encoding($r["category"], "UTF-8", "Windows-1252");
+echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary' href='index.php?oldal=eredmeny&nap=0&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
+
+}
+                    ?>
 
             </div>
+            <?php
+            }elseif($b==1){
+            ?>
+            <div class="row">
+<?php
+
+$sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
+while($r = mysqli_fetch_assoc($sth)) {
+$r["category"] = mb_convert_encoding($r["category"], "UTF-8", "Windows-1252");
+echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary' href='index.php?oldal=eredmeny&nap=1&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
+
+}
+                    ?>
+
             </div>
-        </div>-->
+            <?php
+            }
+            ?>
+            </div>
+        </div>
         <?php
-        if($a==1){
+       }else if($a==1){
         ?>
         <div class="row">
             <div class="col-12 col-md-4" >
                 <h3>Rajlista:</h3>
                 <div class="row">
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-primary" href="#" role="button">Éjszakai</a>
-                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">1. nap</a>
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">2. nap</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=1&b=0" role="button">Éjszakai</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=1&b=1" role="button">1. nap</a>
+                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">2. nap</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">3. nap</a>
                     <?php } ?>
                 </div>
@@ -95,8 +116,11 @@ require("nn2018/result.php");
                 <h3>Megjelenítés:</h3>
             <div class="row">
                 <a style="display:block;" class="col-5 my-1 mx-auto btn btn-primary" href="#" role="button">Kategóriánkénti</a>
-                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="index.php?oldal=rajtlista&nap=0" role="button">Összes</a>
+                <a style="display:block;" class="col-5 my-1 mx-auto btn btn-secondary" href="index.php?oldal=rajtlista&nap=<?php echo $b; ?>" role="button">Összes</a>
             </div>
+            <?php 
+                if($b == 0){
+            ?>
             <div class="row">
                     <?php
 $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok_n WHERE 1 ORDER BY category");
@@ -107,18 +131,22 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
 }
                     ?>
             </div>
-            <div class="row"  style="display:none">
+            <?php
+                }else if($b==1){
+            ?>
+            <div class="row">
                     <?php
 $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
 while($r = mysqli_fetch_assoc($sth)) {
 $r["category"] = mb_convert_encoding($r["category"], "UTF-8", "Windows-1252");
-echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary' href='#' role='button'>".$r["category"]."</a></div>";
+echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary'  href='index.php?oldal=rajtlista&nap=1&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
 
 }
                     ?>
             </div>
+            
             <?php
-        }
+        }}
             ?>
     </div>
 <?php

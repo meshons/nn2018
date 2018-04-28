@@ -1,6 +1,6 @@
 <div class="container-fluid">
 <h1 style="text-align:center;" class="display-4">Nógrád Nagydíj 2018</h1>
-<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php?a=1" role="button">Vissza</a>
+<a style="display:inline-block;" class="mr-2 btn btn-info" href="index.php?a=1&b=<?php echo $_GET["nap"]; ?>" role="button">Vissza</a>
 <?php
 $table = $_GET["nap"];
 if(isset($_GET["kat"])){
@@ -8,9 +8,6 @@ if(isset($_GET["kat"])){
     <h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$_GET["kat"];  ?></h3>
 
     <table class="table table-striped">
-    <?php
-        if($_GET["nap"]==0){
-            ?>
 <thead>
 <tr>
   <th scope="col"></th>
@@ -24,8 +21,12 @@ if(isset($_GET["kat"])){
 
             <?php
             //inner join
+            $table = "start_1";
+    $futok = "futok";
+    if($_GET["nap"]==0){$table="night_s";
+    $futok = "futok_n";}
             //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
-        $sth2 = mysqli_query($con,"SELECT futok_n.id,lastname,firstname,club,start FROM futok_n INNER JOIN night_s ON futok_n.id = night_s.id WHERE category='".$_GET["kat"]."' ORDER BY start");
+        $sth2 = mysqli_query($con,"SELECT $futok.id,lastname,firstname,club,start FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$_GET["kat"]."' ORDER BY start");
     while($r = mysqli_fetch_assoc($sth2)) {
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
 $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
@@ -37,12 +38,12 @@ echo "<tr>
 <td>".t($r["start"])."</td>
 </tr>";
 
-}
+    }
 ?>
 </tbody></table>
 <?php
 
-        }
+        
 
 }else{
 
@@ -72,7 +73,7 @@ $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
         <?php
         //inner join
         //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
-    $sth2 = mysqli_query($con,"SELECT futok_n.id,lastname,firstname,club,start FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$r2["category"]."' ORDER BY start");
+    $sth2 = mysqli_query($con,"SELECT $futok.id,lastname,firstname,club,start FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$r2["category"]."' ORDER BY start");
 while($r = mysqli_fetch_assoc($sth2)) {
 $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
 $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
