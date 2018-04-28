@@ -6,7 +6,7 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
 
 
-<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$_GET["kat"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]==4?"Összetett":($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai"))." - ".$_GET["kat"];  ?></h3>
 
         <table class="table table-striped">
         <?php
@@ -131,7 +131,56 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
 ?>
  </tbody>
             <?php
-            }elseif($_GET["nap"]==0){
+            }elseif($_GET["nap"]==4){
+              ?>
+              <thead>
+  <tr>
+    <th scope="col">Hely.</th>
+    <th scope="col">Név</th>
+    <th scope="col">Egyesület</th>
+    <th scope="col">1. nap</th>
+    <th scope="col">2. nap</th>
+    <!--<th scope="col">3. nap</th>-->
+    <th scope="col">Összidő.</th>
+    <th scope="col">Időkül.</th>
+  </tr>
+</thead>
+<tbody>
+
+              <?php
+              //inner join
+              $i=1;
+              $first = 0;
+              //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
+              //echo "SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2, nap_3.time AS time3,nap_1.time+nap_2.time+nap_3.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_3 ON futok.id = nap_3.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$_GET["kat"]."' AND nap_1.status=0 AND nap_2.status=0 AND nap3.status=0 ORDER BY alltime";
+              //$sth = mysqli_query($con,"SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2, nap_3.time AS time3,nap_1.time+nap_2.time+nap_3.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_3 ON futok.id = nap_3.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$_GET["kat"]."' AND nap_1.status=0 AND nap_2.status=0 AND nap_3.status=0 ORDER BY alltime");
+                    $sth = mysqli_query($con,"SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2,nap_1.time+nap_2.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$_GET["kat"]."' AND nap_1.status=0 AND nap_2.status=0 ORDER BY alltime");
+
+              while($r = mysqli_fetch_assoc($sth)) {
+          if($i==1)$first = $r["alltime"];
+  $r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
+  $r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
+  $r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
+  echo "<tr id='".$r["id"]."'>
+  <th scope='row'>".$i.".</th>
+  <td>".$r["lastname"]." ".$r["firstname"]."</td>
+  <td>".$r["club"]."</td>
+  <td>".t($r["time1"])."</td>
+  <td>".t($r["time2"])."</td>
+  <td>".t($r["alltime"])."</td>
+  <td>".($i==1?"":"+".t($r["alltime"]-$first))."</td>
+
+
+  </tr>";
+  //  <td>".t($r["time3"])."</td>
+
+          $i = $i+1;
+  
+}
+?>
+</tbody>
+          <?php
+          }elseif($_GET["nap"]==0){
               ?>
               <thead>
   <tr>
@@ -183,14 +232,13 @@ if(isset($_GET["nap"]) && isset($_GET["kat"])){
   $table = "nap_1";
   $futok = "futok";
   if($_GET["nap"]==0){$table="night_s";
-  $futok = "futok_n";}
-  
+    $futok = "futok_n";}
   //all
   $sth2 = mysqli_query($con,"SELECT DISTINCT category FROM $futok WHERE 1 ORDER BY category");
 while($r2 = mysqli_fetch_assoc($sth2)) {
 $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
 ?>
-<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$r2["category"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]==4?"Összetett":($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai"))." - ".$r2["category"];  ?></h3>
 
 <table class="table table-striped">
 <thead>
@@ -198,7 +246,9 @@ $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
 <th scope="col"></th>
 <th scope="col">Név</th>
 <th scope="col">Egyesület</th>
-<th scope="col">Rajtidő</th>
+<th scope="col">Idő</th>
+<th scope="col">Időkül.</th>
+<th scope="col">részeredmény</th>
 
 </tr>
 </thead>
@@ -234,7 +284,7 @@ $i = $i+1;
     while($r2 = mysqli_fetch_assoc($sth2)) {
     $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
     ?>
-    <h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$r2["category"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]==4?"Összetett":($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai"))." - ".$r2["category"];  ?></h3>
     
     <table class="table table-striped">
     <thead>
@@ -280,7 +330,7 @@ $i = $i+1;
     while($r2 = mysqli_fetch_assoc($sth2)) {
     $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
     ?>
-    <h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai")." - ".$r2["category"];  ?></h3>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]==4?"Összetett":($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai"))." - ".$r2["category"];  ?></h3>
     
     <table class="table table-striped">
     <thead>
@@ -319,6 +369,63 @@ $i = $i+1;
 }
       ?>
     </tbody>
+    </table>
+    <?php
+  }
+  }else if($_GET["nap"]==4){
+    $sth2 = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
+    while($r2 = mysqli_fetch_assoc($sth2)) {
+    $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");
+    ?>
+<h3 style="display:inline;padding-top:1rem;"><?php echo ($_GET["nap"]==4?"Összetett":($_GET["nap"]!=0?$_GET["nap"].". nap":"Éjszakai"))." - ".$r2["category"];  ?></h3>
+    
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <th scope="col">Hely.</th>
+    <th scope="col">Név</th>
+    <th scope="col">Egyesület</th>
+    <th scope="col">1. nap</th>
+    <th scope="col">2. nap</th>
+    <!--<th scope="col">3. nap</th>-->
+    <th scope="col">Összidő.</th>
+    <th scope="col">Időkül.</th>
+    </tr>
+    </thead>
+    <tbody>
+
+<?php
+//inner join
+$i=1;
+$first = 0;
+//echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
+//echo "SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2, nap_3.time AS time3,nap_1.time+nap_2.time+nap_3.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_3 ON futok.id = nap_3.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$_GET["kat"]."' AND nap_1.status=0 AND nap_2.status=0 AND nap3.status=0 ORDER BY alltime";
+//$sth = mysqli_query($con,"SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2, nap_3.time AS time3,nap_1.time+nap_2.time+nap_3.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_3 ON futok.id = nap_3.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$_GET["kat"]."' AND nap_1.status=0 AND nap_2.status=0 AND nap_3.status=0 ORDER BY alltime");
+      $sth = mysqli_query($con,"SELECT futok.id,lastname,firstname,club, nap_1.time AS time1, nap_2.time AS time2,nap_1.time+nap_2.time AS alltime FROM futok INNER JOIN nap_2 ON futok.id = nap_2.id INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category='".$r2["category"]."' AND nap_1.status=0 AND nap_2.status=0 ORDER BY alltime");
+
+while($r = mysqli_fetch_assoc($sth)) {
+if($i==1)$first = $r["alltime"];
+$r["firstname"] = mb_convert_encoding($r["firstname"], "UTF-8", "Windows-1252");
+$r["lastname"] = mb_convert_encoding($r["lastname"], "UTF-8", "Windows-1252");
+$r["club"] = mb_convert_encoding($r["club"], "UTF-8", "Windows-1252");
+echo "<tr id='".$r["id"]."'>
+<th scope='row'>".$i.".</th>
+<td>".$r["lastname"]." ".$r["firstname"]."</td>
+<td>".$r["club"]."</td>
+<td>".t($r["time1"])."</td>
+<td>".t($r["time2"])."</td>
+<td>".t($r["alltime"])."</td>
+<td>".($i==1?"":"+".t($r["alltime"]-$first))."</td>
+
+
+</tr>";
+//  <td>".t($r["time3"])."</td>
+
+$i = $i+1;
+
+}
+?>
+</tbody>
     </table>
     <?php
   }

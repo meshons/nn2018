@@ -68,11 +68,12 @@ void read(std::string &name, std::list<Result> & l, unsigned char type) {
 			for (int i = 0; i < 4; i++)
 				file.ignore(std::numeric_limits<std::streamsize>::max(), ';');
 
-
+			if (r.lastname == "Marczis")
+				std::cout << "x";
 
 			std::string time;
 			getline(file, time, ';'); //start
-			r.start = st(time);
+			r.start = time != "" ? st(time) : 0;
 			getline(file, time, ';'); //finish
 			r.finish = time!=""?st(time):0;
 			getline(file, time, ';'); //time

@@ -25,6 +25,8 @@ if(isset($_GET["kat"])){
     $futok = "futok";
     if($_GET["nap"]==0){$table="night_s";
     $futok = "futok_n";}
+    if($_GET["nap"]==2)$table="start_2";
+
             //echo "SELECT futok.id,lastname,firstname,club,time,status FROM futok INNER JOIN nap_1 ON futok.id = nap_1.id WHERE category=\'".$_GET["cat"]."\' ORDER BY status, time";
         $sth2 = mysqli_query($con,"SELECT $futok.id,lastname,firstname,club,start FROM $futok INNER JOIN $table ON $futok.id = $table.id WHERE category='".$_GET["kat"]."' ORDER BY start");
     while($r = mysqli_fetch_assoc($sth2)) {
@@ -52,6 +54,8 @@ echo "<tr>
     if($_GET["nap"]==0){$table="night_s";
     $futok = "futok_n";}
     //all
+    if($_GET["nap"]==2)$table="start_2";
+
     $sth = mysqli_query($con,"SELECT DISTINCT category FROM $futok WHERE 1 ORDER BY category");
 while($r2 = mysqli_fetch_assoc($sth)) {
 $r2["category"] = mb_convert_encoding($r2["category"], "UTF-8", "Windows-1252");

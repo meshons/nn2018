@@ -33,7 +33,7 @@ require("nn2018/result.php");
 }else{
 
     $a =0;
-    $b =1;
+    $b =2;
     if(isset($_GET["a"]))
     $a = $_GET["a"];
     if(isset($_GET["b"]))
@@ -57,6 +57,9 @@ if($a==0){
                 <div class="row">
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=0&b=0" role="button">Éjszakai</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=0&b=1" role="button">1. nap</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==2)?"primary":"secondary"; ?>" href="index.php?a=0&b=2" role="button">2. nap</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==4)?"primary":"secondary"; ?>" href="index.php?a=0&b=4" role="button">Összetett</a>
+
                 </div>
             </div>
             <div class="col-12 col-md-8">
@@ -79,7 +82,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
 
             </div>
             <?php
-            }elseif($b==1){
+            }elseif($b==1 || $b==2 || $b==4){
             ?>
             <div class="row">
 <?php
@@ -87,7 +90,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
 $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
 while($r = mysqli_fetch_assoc($sth)) {
 $r["category"] = mb_convert_encoding($r["category"], "UTF-8", "Windows-1252");
-echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary' href='index.php?oldal=eredmeny&nap=1&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
+echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary' href='index.php?oldal=eredmeny&nap=$b&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
 
 }
                     ?>
@@ -107,8 +110,8 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
                 <div class="row">
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=1&b=0" role="button">Éjszakai</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=1&b=1" role="button">1. nap</a>
-                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">2. nap</a>
-                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">3. nap</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==2)?"primary":"secondary"; ?>" href="index.php?a=1&b=2" role="button">2. nap</a>
+                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">3. nap</a>
                     <?php } ?>
                 </div>
             </div>
@@ -132,14 +135,14 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
                     ?>
             </div>
             <?php
-                }else if($b==1){
+                }else if($b==1 || $b==2){
             ?>
             <div class="row">
                     <?php
 $sth = mysqli_query($con,"SELECT DISTINCT category FROM futok WHERE 1 ORDER BY category");
 while($r = mysqli_fetch_assoc($sth)) {
 $r["category"] = mb_convert_encoding($r["category"], "UTF-8", "Windows-1252");
-echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary'  href='index.php?oldal=rajtlista&nap=1&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
+echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto btn btn-secondary'  href='index.php?oldal=rajtlista&nap=$b&kat=".$r["category"]."' role='button'>".$r["category"]."</a></div>";
 
 }
                     ?>
