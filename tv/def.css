@@ -7,17 +7,17 @@ body {
 
 @font-face {
     font-family: opensans;
-    src: url("Open_sans/OpenSans-Regular.ttf");
+    src: url("Open_Sans/OpenSans-Regular.ttf");
 }
 
 @font-face {
     font-family: opensansbold;
-    src: url("Open_sans/OpenSans-Bold.ttf");
+    src: url("Open_Sans/OpenSans-Bold.ttf");
 }
 
 @font-face {
     font-family: opensanssemibold;
-    src: url("Open_sans/OpenSans-SemiBold.ttf");
+    src: url("Open_Sans/OpenSans-SemiBold.ttf");
 }
 
 .side {

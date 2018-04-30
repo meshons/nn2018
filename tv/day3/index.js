@@ -50,7 +50,7 @@ function t(s) {
 function updates() {
   // newbie
   console.log('up');
-  $.getJSON('../backend/day2/getnewbie.php?v=' + newbiever, function (data) {
+  $.getJSON('../backend/day3b/getnewbie.php?v=' + newbiever, function (data) {
     $.each(data, function (key, val2) {
       if (parseInt(val2.version, 10) >= newbiever)
         newbiever = parseInt(val2.version, 10) +1;
@@ -60,8 +60,8 @@ function updates() {
         cat.append(
           '<result valid=\'false\' rid=' + val2.id + ' time=' + val2.time +
           ' ><pos>' + pozs + '</pos><name>' + val2.lastname + ' ' +
-          val2.firstname + '</name><club>' + val2.club + '</club><atime>' +
-          t(val2.time) + '</atime><atimediff>-</atimediff><alltime>-</alltime></result>');
+          val2.firstname + '</name><club>' + val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' +
+          t(val2.time) + '</atime><atimediff>-</atimediff></result>');
       } else {
         // console.log(cat.children().length);
         var i = 0;
@@ -71,8 +71,8 @@ function updates() {
             '<result valid=\'true\' rid=' + val2.id +
             ' time=' + val2.time + ' ><pos>1</pos><name>' +
             val2.lastname + ' ' + val2.firstname + '</name><club>' +
-            val2.club + '</club><atime>' + t(val2.time) +
-            '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+            val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
+            '</atime><atimediff></atimediff></result>');
         else {
           // console.log(
           //    cat.find('result[valid=\'true\']:eq(' + i + ')').length);
@@ -96,9 +96,9 @@ function updates() {
                   .find('pos')
                   .html() +
                   '</pos><name>' + val2.lastname + ' ' + val2.firstname +
-                  '</name><club>' + val2.club + '</club><atime>' +
+                  '</name><club>' + val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' +
                   t(val2.time) + '</atime><atimediff>' + timediff +
-                  '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                  '</atimediff></result>');
               // cat.find('result[valid=\'true\']:eq(' + i + ')')
               while (cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
                 .length != 0) {
@@ -147,9 +147,9 @@ function updates() {
                       10) +
                     1) +
                   '</pos><name>' + val2.lastname + ' ' + val2.firstname +
-                  '</name><club>' + val2.club + '</club><atime>' +
+                  '</name><club>' + val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' +
                   t(val2.time) + '</atime><atimediff>' + timediff +
-                  '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                  '</atimediff></result>');
               found = true;
             }
             i++;
@@ -163,7 +163,7 @@ function updates() {
   //  console.log(newbiever);
   //});
   // update
-  $.getJSON('../backend/day2/getupdate.php?v=' + updatever, function (data) {
+  $.getJSON('../backend/day3b/getupdate.php?v=' + updatever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= updatever)
         updatever = parseInt(val.version, 10) + 1;
@@ -338,7 +338,7 @@ function updates() {
     });
   });
   // delete
-  $.getJSON('../backend/day2/getdelete.php?v=' + deletever, function (data) {
+  $.getJSON('../backend/day3b/getdelete.php?v=' + deletever, function (data) {
     $.each(data, function (key, val) {
       if (parseInt(val.version, 10) >= deletever)
         deletever = parseInt(val.version, 10) + 1;
@@ -364,6 +364,9 @@ function updates() {
   console.log(deletever);*/
 }
 
+function valami(){
+  setInterval(updates, 5000);
+}
 
 $(document).ready(function () {
   // setInterval(explode, 1000);
@@ -371,7 +374,7 @@ $(document).ready(function () {
   setTimeout(lefter, 2000);
   setTimeout(righter, 2000);
 
-  $.getJSON('../backend/day2/getvers.php', function (data) {
+  $.getJSON('../backend/day3b/getvers.php', function (data) {
     if (data['newbie'] != null) newbiever = parseInt(data['newbie'], 10) + 1;
     console.log(newbiever);
     if (data['update'] != null) updatever = parseInt(data['update'], 10) + 1;
@@ -384,9 +387,9 @@ $(document).ready(function () {
     $.each(data, function (key, val) {
       $('#left').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
-        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><atimediff>Időkül.</atimediff><alltime>Összidő</alltime></result></category>');
+        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><alltime>Összidő</alltime><atimediff>Időkül.</atimediff></result></category>');
       $.getJSON(
-        '../backend/day2/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day3b/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -397,8 +400,8 @@ $(document).ready(function () {
                 '<result valid=\'false\' rid=' + val2.id +
                 ' time=' + val2.time + ' ><pos>' + pozs + '</pos><name>' +
                 val2.lastname + ' ' + val2.firstname + '</name><club>' +
-                val2.club + '</club><atime>' + t(val2.time) +
-                '</atime><atimediff>-</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
+                '</atime><atimediff>-</atimediff></result>');
             } else {
               // console.log(cat.children().length);
               var i = 0;
@@ -408,8 +411,8 @@ $(document).ready(function () {
                   '<result valid=\'true\' rid=' + val2.id + ' time=' +
                   val2.time + ' ><pos>1</pos><name>' + val2.lastname +
                   ' ' + val2.firstname + '</name><club>' + val2.club +
-                  '</club><atime>' + t(val2.time) +
-                  '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                  '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
+                  '</atime><atimediff></atimediff></result>');
               else {
                 // console.log(
                 //    cat.find('result[valid=\'true\']:eq(' + i +
@@ -436,9 +439,9 @@ $(document).ready(function () {
                         .html() +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><atime>' + t(val2.time) +
+                        '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
                         '</atime><atimediff>' + timediff +
-                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                        '</atimediff></result>');
                     // cat.find('result[valid=\'true\']:eq(' + i + ')')
                     while (
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
@@ -491,9 +494,9 @@ $(document).ready(function () {
                           1) +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><atime>' + t(val2.time) +
+                        '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
                         '</atime><atimediff>' + timediff +
-                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                        '</atimediff></result>');
                     found = true;
                   }
                   i++;
@@ -510,9 +513,9 @@ $(document).ready(function () {
     $.each(data, function (key, val) {
       $('#right').append(
         '<category cat="' + val.cat + '"><cnamebox><cname>' + val.cat +
-        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><atimediff>Időkül.</atimediff><alltime>Összidő</alltime></result></category>');
+        '</cname></cnamebox><result class="top"><pos>Hely</pos><name>Név</name><club>Egyesület</club><atime>Idő</atime><alltime>Összidő</alltime><atimediff>Időkül.</atimediff></result></category>');
       $.getJSON(
-        '../backend/day2/runnerfromcat.php?cat=' + val.cat,
+        '../backend/day3b/runnerfromcat.php?cat=' + val.cat,
         function (data) {
           $.each(data, function (key2, val2) {
             // console.log(val2);
@@ -523,8 +526,8 @@ $(document).ready(function () {
                 '<result valid=\'false\' rid=' + val2.id +
                 ' time=' + val2.time + ' ><pos>' + pozs + '</pos><name>' +
                 val2.lastname + ' ' + val2.firstname + '</name><club>' +
-                val2.club + '</club><atime>' + t(val2.time) +
-                '</atime><atimediff>-</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                val2.club + '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
+                '</atime><atimediff>-</atimediff></result>');
             } else {
               // console.log(cat.children().length);
               var i = 0;
@@ -534,8 +537,8 @@ $(document).ready(function () {
                   '<result valid=\'true\' rid=' + val2.id + ' time=' +
                   val2.time + ' ><pos>1</pos><name>' + val2.lastname +
                   ' ' + val2.firstname + '</name><club>' + val2.club +
-                  '</club><atime>' + t(val2.time) +
-                  '</atime><atimediff></atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                  '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
+                  '</atime><atimediff></atimediff></result>');
               else {
                 // console.log(
                 //   cat.find('result[valid=\'true\']:eq(' + i + ')').length);
@@ -561,9 +564,9 @@ $(document).ready(function () {
                         .html() +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><atime>' + t(val2.time) +
+                        '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
                         '</atime><atimediff>' + timediff +
-                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                        '</atimediff></result>');
                     // cat.find('result[valid=\'true\']:eq(' + i + ')')
                     while (
                       cat.find('result[valid=\'true\']:eq(' + (i + 1) + ')')
@@ -616,9 +619,9 @@ $(document).ready(function () {
                           1) +
                         '</pos><name>' + val2.lastname + ' ' +
                         val2.firstname + '</name><club>' + val2.club +
-                        '</club><atime>' + t(val2.time) +
+                        '</club><alltime>'+t(val2.alltime)+'</alltime><atime>' + t(val2.time) +
                         '</atime><atimediff>' + timediff +
-                        '</atimediff><alltime>'+t(val2.alltime)+'</alltime></result>');
+                        '</atimediff></result>');
                     found = true;
                   }
                   i++;
@@ -641,7 +644,8 @@ $(document).ready(function () {
       });
     });*/
 
-  var updater = setInterval(updates, 5000);
+ // setInterval(updates, 5000);
+  setTimeout(valami,20000);
   // loaded = true;
 });
 

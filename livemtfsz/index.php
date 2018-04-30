@@ -58,6 +58,7 @@ if($a==0){
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=0&b=0" role="button">Éjszakai</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=0&b=1" role="button">1. nap</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==2)?"primary":"secondary"; ?>" href="index.php?a=0&b=2" role="button">2. nap</a>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==3)?"primary":"secondary"; ?>" href="index.php?a=0&b=3" role="button">3. nap</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==4)?"primary":"secondary"; ?>" href="index.php?a=0&b=4" role="button">Összetett</a>
 
                 </div>
@@ -82,7 +83,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
 
             </div>
             <?php
-            }elseif($b==1 || $b==2 || $b==4){
+            }elseif($b==1 || $b==2 || $b==3 || $b==4){
             ?>
             <div class="row">
 <?php
@@ -111,8 +112,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==0)?"primary":"secondary"; ?>" href="index.php?a=1&b=0" role="button">Éjszakai</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==1)?"primary":"secondary"; ?>" href="index.php?a=1&b=1" role="button">1. nap</a>
                     <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==2)?"primary":"secondary"; ?>" href="index.php?a=1&b=2" role="button">2. nap</a>
-                    <?php if(false){?><a style="display:block;" class="col-11 my-1 mx-auto btn btn-secondary" href="#" role="button">3. nap</a>
-                    <?php } ?>
+                    <a style="display:block;" class="col-11 my-1 mx-auto btn btn-<?php echo ($b==3)?"primary":"secondary"; ?>" href="index.php?a=1&b=3" role="button">3. nap</a>
                 </div>
             </div>
             <div class="col-12 col-md-8">
@@ -135,7 +135,7 @@ echo "<div class='col-4 col-md-3 my-1'><a style='display:block;' class='mx-auto 
                     ?>
             </div>
             <?php
-                }else if($b==1 || $b==2){
+                }else if($b==1 || $b==2 || $b==3){
             ?>
             <div class="row">
                     <?php

@@ -82,7 +82,7 @@ function t($time) {
                     <pos></pos>
                     <name>Név</name>
                     <club>Egyesület</club>
-                    <atime>Mai idő</atime>
+                    <atime>Tegnapi idő</atime>
                     <alltime>Összidő</alltime>
                     <atimediff>Időkül</atimediff>
                 </result>';
