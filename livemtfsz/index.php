@@ -34,11 +34,13 @@ require("nn2018/result.php");
 
     $a =0;
     $b =3;
+    
     if(isset($_GET["a"]))
     $a = $_GET["a"];
+    if($a==0)$b=4;
+
     if(isset($_GET["b"]))
     $b = $_GET["b"];
-    if($a==0)$b=4;
 ?>
     <div class="container">
         <div class="container">
