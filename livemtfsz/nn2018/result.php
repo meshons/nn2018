@@ -411,7 +411,7 @@ echo "<tr id='".$r["id"]."'>
 <td>".$r["club"]."</td>
 <td>".t($r["time"])."</td>
 <td>".($i==1 || $r["status"]!=0?"-":"+".t($r["time"]-$first))."</td>
-<td>".($r["allstat"]==0?t($r["alltime"]):"nincs")."</td>
+<td>".$r["alltime"]."</td>
 <td><div class='btn btn-primary' style='display:inline;'  onClick='openClose(".$r["id"].",\"nap_3\")'>Részeredmény</div></td>
 </tr>";
 $i = $i+1;
